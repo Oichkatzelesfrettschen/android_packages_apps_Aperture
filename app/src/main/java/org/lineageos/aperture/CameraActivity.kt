@@ -31,6 +31,7 @@ import android.os.PowerManager
 import android.os.PowerManager.OnThermalStatusChangedListener
 import android.provider.MediaStore
 import android.util.Log
+import android.util.Range
 import android.view.GestureDetector
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -1520,6 +1521,10 @@ open class CameraActivity : AppCompatActivity(R.layout.activity_camera) {
                 videoFrameRate = (FrameRate::getLowerOrHigher)(
                     videoFrameRate ?: FrameRate.FPS_30, supportedVideoFrameRates
                 )
+                // CameraX sizes the encoder's frame rate and bitrate from this
+                // target; the Camera2 AE range set below changes only the sensor.
+                cameraController.videoCaptureTargetFrameRate =
+                    videoFrameRate?.range ?: Range(0, 0)
 
                 // Set video dynamic range
                 videoDynamicRange = videoDynamicRange.takeIf {
