@@ -23,6 +23,7 @@ import org.lineageos.aperture.models.CameraMode
 import org.lineageos.aperture.models.CameraState
 import org.lineageos.aperture.utils.TimeUtils
 import org.lineageos.aperture.viewmodels.CameraViewModel
+import java.util.concurrent.TimeUnit
 import kotlin.reflect.cast
 
 class CameraModeSelectorLayout @JvmOverloads constructor(
@@ -79,8 +80,15 @@ class CameraModeSelectorLayout @JvmOverloads constructor(
         videoDurationButton.isVisible = cameraState.isRecordingVideo
     }
 
+    private var displayedVideoDurationSeconds: Long? = null
+
     private val videoDurationObserver = Observer { videoDuration: Long ->
-        videoDurationButton.text = TimeUtils.convertNanosToString(videoDuration)
+        val durationSeconds = TimeUnit.NANOSECONDS.toSeconds(videoDuration)
+        // The timer displays whole seconds; repeated text assignments request layout.
+        if (durationSeconds != displayedVideoDurationSeconds) {
+            videoDurationButton.text = TimeUtils.convertNanosToString(videoDuration)
+            displayedVideoDurationSeconds = durationSeconds
+        }
     }
 
     internal var cameraViewModel: CameraViewModel? = null
