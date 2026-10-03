@@ -724,7 +724,7 @@ open class CameraActivity : AppCompatActivity(R.layout.activity_camera) {
         flashButton.setOnLongClickListener { cycleFlashMode(true) }
 
         viewFinder.setLegacySurfaceViewEnabled(
-            Build.VERSION.SDK_INT >= 35 && Build.DEVICE in setOf("m8", "m8whl")
+            Build.VERSION.SDK_INT >= 35 && Build.DEVICE in setOf("m8", "m8whl", "htc_m8", "htc_m8whl")
                 && sharedPreferences.getBoolean("legacy_surface_preview", false)
         )
 
