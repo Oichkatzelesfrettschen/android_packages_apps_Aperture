@@ -723,6 +723,11 @@ open class CameraActivity : AppCompatActivity(R.layout.activity_camera) {
         flashButton.setOnClickListener { cycleFlashMode(false) }
         flashButton.setOnLongClickListener { cycleFlashMode(true) }
 
+        viewFinder.setLegacySurfaceViewEnabled(
+            Build.VERSION.SDK_INT >= 35 && Build.DEVICE in setOf("m8", "m8whl")
+                && sharedPreferences.getBoolean("legacy_surface_preview", false)
+        )
+
         // Attach CameraController to PreviewView
         viewFinder.controller = cameraController
 
