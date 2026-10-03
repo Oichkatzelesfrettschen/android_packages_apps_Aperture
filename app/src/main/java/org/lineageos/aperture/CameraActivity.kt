@@ -1631,7 +1631,8 @@ open class CameraActivity : AppCompatActivity(R.layout.activity_camera) {
 
                     else -> {
                         // We know anything about it, just check if it's recoverable or critical
-                        when (it.type) {
+                        val errorType: CameraXCameraState.ErrorType = it.type
+                        when (errorType) {
                             CameraXCameraState.ErrorType.RECOVERABLE -> {
                                 showToast(R.string.error_unknown_recoverable)
                             }
